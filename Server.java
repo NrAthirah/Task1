@@ -1,57 +1,24 @@
-import java.io.*;
 import java.net.*;
+import java.io.*;
 
-public class Server
+public class server
 {
-
-  private Socket socket = null;
-  private ServerSocket server = null;
-  private DataInputStream in = null;
- 
- 
-  public Server(int port)
- {
-   try
-    {
-      server = new ServerSocket(port);
-      System.out.println("Server started");
-
-      System.out.println("Waiting for a client ...");
-      
-      socket = server.accept();
-      System.out.println("Client accepted");
-
-      in = new DataInputStream(new 
-           BufferedInputStream(socket.getInputStream()));
- 
-      String line = "";
-
-      while(!line.equals("Over"))
-      {
-        try
-         {
-	   line = in.readUTF();
-	   System.out.println(line);
-         }
-         catch(IOException i)
-         {
-           System.out.println(i);
-         }
-      }
-	System.out.println("Closing connection");
-
-        socket.close();
-        in.close();
-     }
-     catch(IOException i)
-     {
-       System.out.println(i);
-     }
-}
-
-public static void main(String args[])
-{
-  Server server = new Server(8080);
- }
-}
- 
+	public static void main(String[] args) throws IOException
+	{
+		ServerSocket serverSocket = new ServerSocket(10000);
+		Socket clientSocket = serverSocket.accept();
+		
+		System.out.println("client connected");
+		
+		InputStreamReader a = new InputStreamReader(clientSocket.getInputStream());
+		
+		BufferedReader c = new BufferedReader(a);
+		
+		PrintWriter q = new PrintWriter(clientSocket.getOutputStream());
+		q.println("Ni hao ma");
+		q.flush();
+		
+		String recvr = c.readLine();
+		System.out.println(recvr);
+	}
+}	
